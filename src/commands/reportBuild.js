@@ -20,7 +20,7 @@ const DEFAULT_TEMPLATE = path.resolve(__dirname, '../templates/lnu-default.docx'
 const EMU_PER_INCH = 914400;
 
 function extractPlainText(pXml) {
-  const matches = [...pXml.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)];
+  const matches = [...pXml.matchAll(/<w:t(?:\s[^>]*)?>([\s\S]*?)<\/w:t>/g)];
   return matches.map((m) => m[1]).join('');
 }
 

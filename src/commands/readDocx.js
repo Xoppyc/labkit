@@ -14,7 +14,7 @@ function decodeEntities(str) {
 
 function extractTextFromXml(xml) {
   const tokens = [];
-  const regex = /<w:t[^>]*>([\s\S]*?)<\/w:t>|<w:br\s*\/?>|<w:tab\s*\/?>/g;
+  const regex = /<w:t(?:\s[^>]*)?>([\s\S]*?)<\/w:t>|<w:br\s*\/?>|<w:tab\s*\/?>/g;
   let m;
   while ((m = regex.exec(xml)) !== null) {
     if (m[1] !== undefined) tokens.push(decodeEntities(m[1]));

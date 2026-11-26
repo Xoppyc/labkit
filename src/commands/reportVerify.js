@@ -27,7 +27,7 @@ export async function reportVerifyCommand(target) {
 
     const images = (xml.match(/<a:blip\b/g) || []).length;
     const tables = (xml.match(/<w:tbl\b/g) || []).length;
-    const plain = [...xml.matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)].map((m) => m[1]).join('');
+    const plain = [...xml.matchAll(/<w:t(?:\s[^>]*)?>([\s\S]*?)<\/w:t>/g)].map((m) => m[1]).join('');
 
     const foundPlaceholders = [];
     for (const re of PLACEHOLDER_PATTERNS) {
