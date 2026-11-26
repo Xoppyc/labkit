@@ -1,16 +1,14 @@
 # labkit
 
-Opinionated Node.js CLI for university lab workflows — built so both humans and AI coding agents can extract assignments, compile Markdown reports into styled `.docx` templates, bulk-patch/verify reports, and render clean Linux terminal screenshots without writing ad-hoc Python scripts.
+An opinionated Node.js CLI for university lab workflows. Humans and AI coding agents can use it to extract assignments, compile Markdown reports into styled `.docx` templates, patch and verify reports in bulk, and render Linux terminal screenshots without writing ad-hoc Python scripts.
 
 ## Requirements
 
-- **Node.js** `>= 18` (`node -v`)
-- **npm** (`npm -v`)
-- *(Optional)* **ImageMagick** (`convert`) — only needed if a `.docx` assignment contains legacy `.wmf` formula images that need auto-conversion to `.png`.
+- Node.js `>= 18` (`node -v`)
+- npm (`npm -v`)
+- ImageMagick (`convert`), optional: only needed when a `.docx` assignment has legacy `.wmf` formula images that need conversion to `.png`.
 
----
-
-## Quick Install (Human or AI Agent)
+## Quick install (human or AI agent)
 
 Clone the repository and run the setup commands below:
 
@@ -33,60 +31,62 @@ which labkit && labkit --version
 
 If you get `command not found`, add `~/.local/bin` to your shell `PATH`:
 
-**Bash (`~/.bashrc`):**
+Bash (`~/.bashrc`):
+
 ```bash
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-**Zsh (`~/.zshrc`):**
+Zsh (`~/.zshrc`):
+
 ```bash
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-**Fish (`~/.config/fish/config.fish`):**
+Fish (`~/.config/fish/config.fish`):
+
 ```fish
 fish_add_path ~/.local/bin
 ```
 
-**Alternative (npm global link, works on Linux/macOS/Windows):**
+Alternative (npm global link, works on Linux, macOS, and Windows):
+
 ```bash
 cd ~/Dev/labkit
 npm link
 ```
 
 Verify installation:
+
 ```bash
 labkit --help
 ```
 
----
+## Agent setup (install `SKILL.md`)
 
-## Agent Setup (Install `SKILL.md`)
+Symlink `SKILL.md` into your agent's global skills folder so it can discover and use `labkit` in every conversation:
 
-To let your AI agent automatically discover and use `labkit` in every conversation, symlink `SKILL.md` into your agent's global skills folder:
+Antigravity:
 
-**Antigravity:**
 ```bash
 mkdir -p ~/.gemini/config/skills/labkit
 ln -sf "$(pwd)/SKILL.md" ~/.gemini/config/skills/labkit/SKILL.md
 ```
 
-**Claude Code / Cursor / other agents:**
+Claude Code, Cursor, or other agents:
 Point your agent to `SKILL.md` in this repo (or copy it into `.claude/skills/labkit/SKILL.md` or `.cursor/rules/`).
 
-### Prompt for Your Roommate's Agent
+### Prompt for agent-driven installation
 
-If you just want an AI agent to set everything up automatically, paste this prompt:
+If you want an AI agent to set everything up automatically, paste this prompt:
 
-> Clone `https://github.com/Xoppyc/labkit` into `~/Dev/labkit`, follow the Quick Install and Agent Setup instructions in `README.md`, verify `labkit --help` works on `PATH`, and read `SKILL.md` so you know how to use it for my labs.
-
----
+> Clone `https://github.com/Xoppyc/labkit` into `~/Dev/labkit`, follow the Quick install and Agent setup instructions in `README.md`, verify `labkit --help` works on `PATH`, and read `SKILL.md` so you know how to use it for my labs.
 
 ## Usage
 
-### 1. Read `.docx` / `.pdf` Assignments
+### 1. Read `.docx` / `.pdf` assignments
 
 ```bash
 # Extract full .docx text + Markdown tables + embedded images (auto-converts .wmf -> .png)
@@ -99,11 +99,11 @@ labkit read docx assignment.docx --variant 9 --images ./imgs
 labkit read pdf reference.pdf --out reference.txt
 ```
 
-### 2. Compile Markdown into a Styled `.docx` Report
+### 2. Compile Markdown into a styled `.docx` report
 
 Write a compact Markdown file (`report.md`) with YAML frontmatter:
 
-```markdown
+````markdown
 ---
 lab: 7
 title: Дискретне перетворення Фур'є
@@ -116,19 +116,22 @@ repo: https://github.com/username/repo/tree/main/lab7
 ---
 
 ## 1. Постановка задачі
+
 Звичайний абзац з **жирним** та `inline code`.
 
 ```python Лістинг 7.1. Пряме ДПФ
 def dft(x):
     ...
 ```
+````
 
 | Параметр | Значення |
-| --- | --- |
-| Період T | 20.01 |
+| -------- | -------- |
+| Період T | 20.01    |
 
 ![Рис. 7.1. Спектр ДПФ](./plots/spectrum.png)
-```
+
+````
 
 Build the `.docx`:
 
@@ -138,9 +141,9 @@ labkit report build report.md -o Звіт_Лабораторна_робота_7.
 
 # Or pass your own custom .docx template
 labkit report build report.md -t ./my-template.docx -o out.docx
-```
+````
 
-### 3. Bulk Patch & Verify Reports
+### 3. Bulk patch and verify reports
 
 ```bash
 # Replace text across all .docx files in a directory
@@ -150,7 +153,7 @@ labkit report patch ./reports/ --find "[ПІБ викладача]" --replace "�
 labkit report verify ./reports/
 ```
 
-### 4. Render Linux Terminal Screenshots
+### 4. Render Linux terminal screenshots
 
 ```bash
 # Run a command and render its output as a crisp Linux/GNOME terminal PNG
@@ -160,13 +163,11 @@ labkit snap --cmd "python3 -m unittest tests.py" --title "Terminal - tests" -o s
 labkit snap --text "[PASS] All 4 tests passed" --title "Terminal" -o screenshot.png
 ```
 
----
-
 ## Customization
 
-Everything is plain ES Modules (`"type": "module"`) with no build step — edit any file and run `labkit` immediately:
+The project uses plain ES Modules (`"type": "module"`) with no build step. Edit any file and run `labkit` immediately:
 
-- `src/lib/docxXml.js` — fonts, sizes, code-block colors/borders, table styling.
-- `src/commands/reportBuild.js` — frontmatter-to-template placeholder mapping.
-- `src/commands/snap.js` — terminal colors, font, window bar layout.
-- `src/templates/lnu-default.docx` — default report template.
+- `src/lib/docxXml.js`: fonts, sizes, code-block colors and borders, and table styling.
+- `src/commands/reportBuild.js`: frontmatter-to-template placeholder mapping.
+- `src/commands/snap.js`: terminal colors, font, and window bar layout.
+- `src/templates/lnu-default.docx`: default report template.
