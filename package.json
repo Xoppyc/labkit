@@ -1,0 +1,20 @@
+{
+  "name": "labkit",
+  "version": "1.0.0",
+  "description": "Opinionated Node.js CLI for university lab workflows: extract docx/pdf assignments, build styled .docx reports from Markdown, patch/verify reports, and render Linux terminal screenshots.",
+  "type": "module",
+  "bin": {
+    "labkit": "./bin/labkit.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "commander": "^12.1.0",
+    "gray-matter": "^4.0.3",
+    "image-size": "^1.1.1",
+    "jszip": "^3.10.1",
+    "pdf-parse": "^1.1.1"
+  }
+}
