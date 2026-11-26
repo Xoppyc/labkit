@@ -5,7 +5,7 @@ description: Opinionated Node.js CLI (`labkit`) for university lab workflows —
 
 # labkit — University Lab Automation CLI
 
-Use `labkit` (installed at `~/.local/bin/labkit`, source at `/home/xyc/Dev/labkit`) instead of writing inline `python3 -c` scripts for `.docx`, `.pdf`, or terminal screenshot tasks.
+Use `labkit` (installed on `PATH` at `~/.local/bin/labkit`) instead of writing inline `python3 -c` scripts for `.docx`, `.pdf`, or terminal screenshot tasks.
 
 > Note: If running inside a Flatpak sandbox where `node` is only on the host, invoke via `flatpak-spawn --host labkit ...`.
 
